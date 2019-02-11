@@ -1,0 +1,23 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@bazel_gazelle//:def.bzl", "gazelle")
+
+# gazelle:prefix github.com/pcasaretto/gazelle-bug-example
+gazelle(name = "gazelle")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["main.go"],
+    importpath = "github.com/pcasaretto/gazelle-bug-example",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//vendor/google.golang.org/api/option:go_default_library",
+        "//vendor/google.golang.org/grpc/codes:go_default_library",
+        "@org_golang_google_grpc//:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "gazelle-bug-example",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:public"],
+)

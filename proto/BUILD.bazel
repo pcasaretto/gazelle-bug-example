@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
+
+proto_library(
+    name = "gazelle_proto",
+    srcs = ["gazelle.proto"],
+    visibility = ["//visibility:public"],
+)
+
+go_proto_library(
+    name = "gazelle_go_proto",
+    importpath = "github.com/pcasaretto/gazelle-bug-example/proto",
+    proto = ":gazelle_proto",
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "go_default_library",
+    embed = [":gazelle_go_proto"],
+    importpath = "github.com/pcasaretto/gazelle-bug-example/proto",
+    visibility = ["//visibility:public"],
+)
